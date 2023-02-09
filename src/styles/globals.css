@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    scrollbar-color: #1e293b #475569;
+}
+
+*::-webkit-scrollbar {
+    /* width: 20px; */
+    width: 10px;
+    height: min-content;
+}
+
+*::-webkit-scrollbar-track {
+    background: #475569;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 100vh;
+    /* border: 3px solid #f6f7ed; */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    /* background: #c0a0b9; */
+}
+
 @layer components {
     /* .btn-primary {
       @apply py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
@@ -13,5 +37,16 @@
 
     .center {
         @apply flex justify-center items-center;
+    }
+
+    .btn {
+        @apply rounded-md py-2 px-4
+        transition-all duration-150
+        outline outline-transparent outline-2 outline-offset-1;
+    }
+    .btn-primary {
+        @apply bg-cyan-700 hover:bg-cyan-600
+        border border-cyan-600
+        focus-visible:outline-cyan-500;
     }
 }

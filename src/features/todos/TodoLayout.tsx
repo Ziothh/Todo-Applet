@@ -9,6 +9,7 @@ interface Props {
 const TodoLayout: React.FC<PropsWithChildren<Props>> = ({children, className}) => {
     return (
         <div className={classNames(`
+        flex flex-col
         w-[800px] h-full
         rounded-md
         text-neutral-200

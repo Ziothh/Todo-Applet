@@ -48,12 +48,7 @@ const TodoApp: React.FC = ({}) => {
         <header className="mb-8 flex justify-between">
             <h1 className="text-3xl">My todos</h1>
             <Link href={Routes.NEW_TODO}>
-                <a className="
-                center
-                p-4 rounded-md pt-1 pb-1
-                bg-cyan-700 hover:bg-cyan-600 
-                border border-cyan-600
-                ">
+                <a className="btn btn-primary py-1">
                     Add
                 </a>
             </Link>

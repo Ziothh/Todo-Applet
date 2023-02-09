@@ -25,9 +25,6 @@ const todoRouter = createRouter()
         id: z.string(),
     }),
     async resolve({ctx, input}) {
-        console.log(await prisma.todo.findMany())
-
-        // ctx.session?.user?.id
         return prisma.todo.findFirstOrThrow({
             where: {
                 id: input.id

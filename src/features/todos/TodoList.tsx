@@ -123,9 +123,11 @@ const TodoList: React.FC<Props> = ({}) => {
     const router = useRouter()
     const [todos, meta, helpers] = useDraggableTodos()
 
-    // const [listRef] = useAutoAnimate<HTMLUListElement>({
-    //     duration: 300
-    // })
+    const [listRef] = useAutoAnimate<HTMLUListElement>({
+        duration: 1000,
+    })
+
+    console.log(listRef);
 
     // if (isLoading) return <p>Loading</p>
     // if (data!.length === 0) return <p>You currently have no todos.</p>
@@ -133,12 +135,35 @@ const TodoList: React.FC<Props> = ({}) => {
     if (meta.isLoading) return <TodoListSkeleton/>
 
     return (
+        <ul ref={listRef} className="flex flex-col">
+            {todos.map((todo, i) => (
+                <li className="mb-4" key={todo.id}>
+                    <TodoListCard todo={todo} />
+                </li>
+            ))}
+            <li key={"addBtn"}>
+                <button onClick={() => router.push(Routes.NEW_TODO)}
+                className="center rounded-md py-2 w-full
+                transition-duration
+                bg-neutral-700 opacity-20 hover:opacity-100 border border-neutral-600 
+                ">
+                    <FaPlus className="h-8"/>
+                </button>
+            </li>
+        </ul>
+    )
+
+    return (
         <DragDropContext onDragEnd={helpers.onDragEnd}>
             <Droppable droppableId="todoList">
                 {(provided, snapshot) => (
                     <ul /*ref={listRef}*/ className="flex flex-col"
                         {...provided.droppableProps}
-                        ref={provided.innerRef}
+                        ref={node => {
+                            provided.innerRef(node)
+                            // @ts-ignore
+                            listRef.current = node /* Ignore the immutable current */
+                        }}
                     >
                         {todos.map((todo, i) => (
                             <Draggable draggableId={todo.id} index={i} key={todo.id}>

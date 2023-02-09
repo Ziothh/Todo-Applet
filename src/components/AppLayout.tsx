@@ -13,7 +13,8 @@ const AppLayout: React.FC<PropsWithChildren<Props>> = ({
 }) => {
     return (
         <div className={classNames(`
-        w-screen h-screen pt-12 pb-12
+        w-screen min-h-screen overflow-hidden overflow-y-auto max-w-full
+        pt-12 pb-12
         flex flex-col items-center
         shadow-md
         bg-neutral-600 

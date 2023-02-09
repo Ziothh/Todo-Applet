@@ -38,11 +38,10 @@ const TodoBaseForm = <Mode extends "create" | "update">(props: Props<Mode>): JSX
 
     const router = useRouter()
     const trpcCtx = useTrpcCtx()
-    const todoToUpdate = mode === "create" 
-    ? {data: {} as any} 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const {data: todoToUpdate, isLoading} = mode === "create" 
+    ? {data: undefined as Todo | undefined, isLoading: false} 
     : useQuery(["todo.getOne", {id: todoId}])
-    
+
     const {mutateAsync} = useMutation(mode === "create" ? "todo.create" : "todo.update", {
         onSuccess(data, variables, context) {
             trpcCtx.setQueryData(["todo.getAll"], 
@@ -82,20 +81,14 @@ const TodoBaseForm = <Mode extends "create" | "update">(props: Props<Mode>): JSX
             }
         )} 
         validationSchema={formValidator}
-        initialValues={mode === "update" && todoToUpdate.data ? todoToUpdate.data : initialValues }
+        initialValues={todoToUpdate === undefined ? initialValues : todoToUpdate}
         enableReinitialize
         >
             <Form ref={formRef} className="flex flex-col gap-4">
-                <Input name="name" label="Name" placeholder="My todo" />
-                <Input name="description" label="Description" placeholder="A short description..." tag="textarea" rows={5}/>
+                <Input name="name" label="Name" placeholder={isLoading ? "Laden..." : "My todo"} />
+                <Input name="description" label="Description" placeholder={isLoading ? "Laden..." : "A short description..."} tag="textarea" rows={5}/>
                 <input type="submit" value="Submit" 
-                className="
-                rounded-md
-                py-2 px-4
-                transition-all duration-150
-                bg-cyan-700 hover:bg-cyan-600
-                outline outline-transparent outline-2 outline-offset-1 focus-visible:outline-cyan-500
-                "
+                className="btn btn-primary"
                 />
             </Form>
         </Formik>

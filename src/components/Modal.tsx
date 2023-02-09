@@ -33,8 +33,8 @@ const [ModalCtx, useModalCtx] = contextFactory(() => {
     }
 })
 
-const useBodyOverflowToggle = () => {
-    const {isOpen} = useModalCtx()
+const useBodyOverflowHide = () => {
+    const {isOpen, setIsOpen} = useModalCtx()
 
     useEffect(() => {
         (
@@ -58,7 +58,7 @@ const Modal = withContext<Props>(({
     children,
     onClose,
 }) => {
-    useBodyOverflowToggle()
+    useBodyOverflowHide()
     const {isOpen, createHelpers} = useModalCtx()
 
     const helpers = createHelpers({
@@ -68,6 +68,18 @@ const Modal = withContext<Props>(({
     useEffect(() => {
         if (defaultOpen) helpers.open()
     }, [defaultOpen, helpers])
+
+    useEffect(() => {
+        if (isOpen) {
+            const callback = (e: KeyboardEvent) => {
+                if (e.key === "Escape") helpers.close()
+            }
+    
+            window.addEventListener("keydown", callback)
+    
+            return () => window.removeEventListener("keydown", callback)
+        }
+    }, [isOpen])
 
     return (
         <div 
